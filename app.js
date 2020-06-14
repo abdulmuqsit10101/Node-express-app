@@ -14,6 +14,14 @@ app.get('/index', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/flights/:From-:To', (req, res) => {
+  res.send('Here are flights data. ' + 'From ' + req.params.From + ' To ' + req.params.To);
+});
+
+app.get('/flights/:From?.:To?', (req, res) => {
+  res.send('Here are flights data. ' + 'From ' + req.params.From + ' To ' + req.params.To);
+});
+
 app.get('/user/:userId/book/:bookId', (req, res) => {
   const dataScript = 'User id is ' + req.params.userId + ' with book '
     + req.params.bookId;
