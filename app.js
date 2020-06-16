@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const mv = require('./middlewares/Validator_middleware.js');
 
 route = require('express').Router({strict: true});
 app.use('/strict/', route);
@@ -48,28 +49,17 @@ app.get(/.*fly$/, (req, res) => {
 });
 
 app.get('/user/:userId/book/:bookId', (req, res) => {
-  const dataScript = 'User id is ' + req.params.userId + ' with book '
-    + req.params.bookId;
+  const dataScript = 'User id is ' + req.params.userId + ' with book ' + req.params.bookId;
   res.send(dataScript);
 });
 
-// MiddleWare for users
-const Validation = (req, res, next) => {
-  console.log('Hello. first lets do validation.')
-  if (req.params.username === 'Ali' || req.params.username === 'ali') {
-    console.log('Authenticated Successfully!');
-    next();
-  } else {
-    res.send('Page not found!');
-  }
-};
-
-
 app.get('/users', (req, res) => {
-  res.send('We are Users');
+  const name = mv.name;
+  console.log(name);
+  res.send(`We are Users ${name}`);
 });
 
-app.get('/users/:username', Validation, (req, res) => {
+app.get('/users/:username', mv.validator('Ali'), (req, res) => {
   res.send('Welcome Mr.Ali');
 });
 
