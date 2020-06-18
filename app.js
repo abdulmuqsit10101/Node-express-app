@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const mv = require('./middlewares/Validator_middleware.js');
+app.set('view engine', 'pug');
+app.set('views', './public/views');
 
 route = require('express').Router({strict: true});
 app.use('/strict/', route);
@@ -61,6 +63,14 @@ app.get('/users', (req, res) => {
 
 app.get('/users/:username', mv.validator('Ali'), (req, res) => {
   res.send('Welcome Mr.Ali');
+});
+
+app.get('/engine', (req, res) => {
+  res.render('index', {
+    title: 'The View Engine',
+    heading: 'Watch template Engine',
+    description: 'Here is the explanation of the view engins part'
+  });
 });
 
 app.listen(port, () => console.log(`App is running on ${port}`));
