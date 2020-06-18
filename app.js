@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const mv = require('./middlewares/Validator_middleware.js');
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 app.set('views', './public/views');
 
 route = require('express').Router({strict: true});
