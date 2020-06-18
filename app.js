@@ -73,4 +73,16 @@ app.get('/engine', (req, res) => {
   });
 });
 
+app.get('/about/:a-:b', (req, res) => {
+  const a = parseInt(req.params.a);
+  const b = parseInt(req.params.b);
+  res.render('calculator', {
+    title: 'Calculations',
+    heading: 'Calculations',
+    sum: a + b,
+    sub: a - b,
+    multiple: a * b,
+  });
+});
+
 app.listen(port, () => console.log(`App is running on ${port}`));
