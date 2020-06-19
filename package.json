@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "express-static": "^1.2.6",
     "express-validator": "^6.5.0",
+    "mongoose": "^5.9.19",
     "twig": "^1.15.1"
   }
 }
