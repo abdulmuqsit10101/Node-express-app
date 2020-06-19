@@ -3,12 +3,16 @@ const app = express();
 const port = 3000;
 const mv = require('./middlewares/Validator_middleware.js');
 var bodyParser = require('body-parser');
+const {check, validationResult} = require('express-validator/check');
+const {matchedData, sanitizeBody} = require('express-validator/filter');
+
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+const jsonParser = bodyParser.json();
 
 
 app.set('view engine', 'twig');
@@ -98,8 +102,24 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
-app.post('/home', (req, res) => {
-  res.render('home', {title: 'baba', username: req.body.username, password: req.body.password});
+app.post('/login', urlencodedParser, [
+  check('username', 'Username should be an email!').trim().isEmail(),
+  check('password', 'Password must not be less than 5!').trim().isLength({min: 5}),
+  check('cpassword').custom((value, {req}) => {
+    if (value !== req.body.password) {
+      throw new Error('Confirm password should be same to password!');
+    }
+    return true;
+  })
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const user = matchedData(req);
+    res.render('login', {title: 'errors', errors: errors.mapped(), user: user})
+  } else {
+    const user = matchedData(req);
+    res.render('home', {title: 'baba', user: user});
+  }
 });
 
 app.listen(port, () => console.log(`App is running on ${port}`));

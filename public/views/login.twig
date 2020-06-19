@@ -1,19 +1,38 @@
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ title }}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{ title }}</title>
 </head>
 <body>
- <h1> WOW getting pro </h1>
- <form method="post" action="/home">
-    <label for="username" >Username</label>
-    <input type="text" name="username" />
+<h1> WOW getting pro </h1>
+<form method="post" action="/login">
+  <div>
+    <label for="username">Username</label>
+    <input type="text" name="username" value="{{ user.username }}"/>
+    {% if(errors.username) %}
+      {{ errors.username.msg }}
+    {% endif %}
+  </div>
+  <br>
+  <div>
     <label for="password">Password</label>
-    <input type="text" name="password" />
-    <input type="submit" value="Submit"/>
- </form>
+    <input type="password" name="password" value="{{ user.password }}"/>
+    {% if(errors.password) %}
+      {{ errors.password.msg }}
+    {% endif %}
+  </div>
+  <br>
+  <div>
+    <label for="cpassword">Confirm Password</label>
+    <input type="password" name="cpassword" value="{{ user.cpassword }}"/>
+    {% if(errors.cpassword) %}
+      {{ errors.cpassword.msg }}
+    {% endif %}
+  </div>
+  <input type="submit" value="Submit"/>
+</form>
 </body>
 </html>
