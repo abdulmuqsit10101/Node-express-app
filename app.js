@@ -2,6 +2,15 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const mv = require('./middlewares/Validator_middleware.js');
+var bodyParser = require('body-parser');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+
 app.set('view engine', 'twig');
 app.set('views', './public/views');
 
@@ -81,8 +90,16 @@ app.get('/about/:a-:b', (req, res) => {
     heading: 'Calculations',
     sum: a + b,
     sub: a - b,
-    multiple: a * b,
+    multiple: a * b
   });
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/home', (req, res) => {
+  res.render('home', {title: 'baba', username: req.body.username, password: req.body.password});
 });
 
 app.listen(port, () => console.log(`App is running on ${port}`));
